@@ -1,6 +1,7 @@
 import log from '@ajar/marker'; 
 import http, { Agent } from 'http';
 import { url } from 'inspector';
+import querystring from 'querystring';
 
 // const PORT = process.env.PORT;
 // const HOST = process.env.HOST;
@@ -9,7 +10,8 @@ const { PORT, HOST } = process.env;
 
 //create an http web server
 const server = http.createServer( (req,res)=> {
-    const {url, method, httpVersion, headers} = req
+    const {url, method, httpVersion, headers, pathname} = req
+    let filename = url.split('/').pop().slice(7)
     res.statusCode = 200;
     // res.setHeader('Content-Type','text/plain')
     // res.setHeader('Content-Type','text/html')
@@ -28,9 +30,10 @@ const server = http.createServer( (req,res)=> {
         host: `${HOST}:${PORT}`,
         protocol: "http:",
         httpVersion: httpVersion,
-        pathname: url.pathname,
-        querystring: {month: "april", temp: 32},
-        user_agent: headers['user-agent'],
+        pathname,
+        queryString: querystring.parse(filename),
+        // querystring: querystring.parse(url),
+        userAgent: headers['user-agent'],
         connection: headers.connection
     }
     res.end(JSON.stringify(obj));
