@@ -1,0 +1,25 @@
+{
+  "name": "http-server",
+  "version": "1.0.0",
+  "scripts": {
+    "1": "npm run base -- 1-server-simple.mjs",
+    "2": "npm run base -- 2-server-inspect.mjs",
+    "3": "npm run base -- 3-server-perf.mjs",
+    "4": "npm run base -- 4-server-router.mjs",
+    "5": "npm run base -- 5-counter.mjs",
+    "start": "node PORT=3000 1-server-simple.mjs",
+    "base": "nodemon -r dotenv/config "
+  },
+  "keywords": [],
+  "author": "Yariv Gilad <yariv.gilad@gmail.com> (https://www.linkedin.com/in/yarivgilad/)",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@ajar/marker": "^1.2.3",
+    "dotenv": "^8.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  },
+  "main": "index.js",
+  "description": ""
+}
