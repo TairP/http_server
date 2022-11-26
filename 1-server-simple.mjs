@@ -1,21 +1,19 @@
 import log from '@ajar/marker'; 
 import http, { Agent } from 'http';
-import { url } from 'inspector';
-import querystring from 'querystring';
+import urlHelper from 'url';
+// import { url } from 'inspector';
+// import querystring from 'querystring';
 
 // const PORT = process.env.PORT;
 // const HOST = process.env.HOST;
 const { PORT, HOST } = process.env;
-//console.log(process.env);
+console.log(process.env);
 
 //create an http web server
 const server = http.createServer( (req,res)=> {
-    const {url, method, httpVersion, headers, pathname} = req
-    let filename = url.split('/').pop().slice(7)
+    const {url, method, httpVersion, headers} = req
+    // let filename = url.split('/').pop().slice(7)
     res.statusCode = 200;
-    // res.setHeader('Content-Type','text/plain')
-    // res.setHeader('Content-Type','text/html')
-    // res.end(`<h1>Hello from server!!!</h1>`)
     res.setHeader('Status-Code', res.statusCode)
     res.setHeader('User-Agent', 'headers')
     res.setHeader('agenda', 'political')
@@ -23,6 +21,7 @@ const server = http.createServer( (req,res)=> {
     res.setHeader('Content-Type','application/json')
     res.setHeader('some-single-header', 'some-single-value')
     // let obj = {x:22,nested:{name:'tomer'},z:33}
+
     let obj = {
         href: `http://${HOST}:${PORT}${url}`,
         url,
@@ -30,8 +29,9 @@ const server = http.createServer( (req,res)=> {
         host: `${HOST}:${PORT}`,
         protocol: "http:",
         httpVersion: httpVersion,
-        pathname,
-        queryString: querystring.parse(filename),
+        pathname: urlHelper.parse(url,true).pathname,
+        querystring: urlHelper.parse(urlHelper.parse(url,true).search,true).query,
+        // queryString: querystring.parse(filename),
         // querystring: querystring.parse(url),
         userAgent: headers['user-agent'],
         connection: headers.connection
